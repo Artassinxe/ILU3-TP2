@@ -15,7 +15,6 @@ public abstract class Carte {
 		this.nombreCarte = nombreCarte;
 	}
 
-	@Override
 	public abstract String toString();
-
+	
 }

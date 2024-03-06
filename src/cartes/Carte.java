@@ -7,10 +7,6 @@ public abstract class Carte {
 		this.nombreCarte = nombreCarte;
 	}
 
-	public int getNombreCarte() {
-		return nombreCarte;
-	}
-
 	public void setNombreCarte(int nombreCarte) {
 		this.nombreCarte = nombreCarte;
 	}

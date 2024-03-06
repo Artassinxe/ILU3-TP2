@@ -1,7 +1,7 @@
 package cartes;
 
 public enum Type {
-	FEU, ESSENCE, CREVAISON, ACCIDENT;
+	FEU, ESSENCE, CREVAISON, ACCIDENT,VITESSE;
 
 	@Override
 	public String toString() {
@@ -11,7 +11,7 @@ public enum Type {
 		case ESSENCE:
 			return "Essence";
 		case CREVAISON:
-			return "Crevasse";
+			return "Crevaison";
 		case ACCIDENT:
 			return "Accident";
 		default:

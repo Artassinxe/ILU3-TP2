@@ -20,9 +20,13 @@ public class Utils {
 	    }
 		int index = new Random().nextInt(liste.size());
 		E obj = null;
-		for (ListIterator<E> iterator = liste.listIterator();iterator.hasNext() && iterator.nextIndex() <= index;) {
+		int i = 0;
+		for (ListIterator<E> iterator = liste.listIterator();i <= index;) {
 			obj = iterator.next();
-			iterator.remove();
+			if (i == index) {
+				iterator.remove();
+			}
+			i++;
 		}
 		return obj;
 	}
@@ -34,4 +38,6 @@ public class Utils {
 		}
 		return liste;
 	}
+	
+	
 }

@@ -1,11 +1,10 @@
 package utils;
 
-import java.util.List;
 import java.util.ArrayList;
-import java.util.Random;
-import java.util.ListIterator;
-import java.util.Objects;
 import java.util.Collections;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Random;
 
 public class Utils {
 	
@@ -35,15 +34,15 @@ public class Utils {
 	}
 	
 	public static <E> List<E> melanger(List<E> liste) {
-		for (ListIterator<E> iterator = liste.listIterator();iterator.hasNext();) {
-			iterator.next();
-			iterator.remove();
+		List<E> liste2 = new ArrayList<>();
+		while(liste.size()!=0) {
+			liste2.add(Utils.extraire(liste));
 		}
-		return liste;
+		return liste2;
 	}
 	
 	public static <E> Boolean verifierMelange(List<E> liste1, List<E> liste2) {
-		if (liste1.size() != liste2.size() || liste1.isEmpty() || liste2.isEmpty())
+		if (liste1.size() != liste2.size())
 			return false;
 		List<E> knownObj = new ArrayList<>();
 		for (ListIterator<E> iterator = liste1.listIterator();iterator.hasNext();) {
@@ -69,6 +68,27 @@ public class Utils {
 	}
 	
 	public static <E> Boolean verifierRassemblement(List<E> liste) {
+		E obj = null;
+		E nextObj = null;
+		ListIterator<E> iterator = liste.listIterator();
+		
+		if(iterator.hasNext()) {
+			obj = iterator.next();
+		}else return true;
+		
+		while(iterator.hasNext()) { 
+			nextObj = iterator.next();
+			if (!obj.equals(nextObj)) {
+				for(ListIterator<E> iterator2 = liste.listIterator(iterator.nextIndex());iterator2.hasNext();) {
+					E compObj = iterator2.next();
+					if(compObj.equals(obj)) {
+						return false;
+					}
+				}
+			}
+			obj = nextObj;
+		}
+		
 		return true;
 	}
 	

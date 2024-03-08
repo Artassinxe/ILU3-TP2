@@ -1,9 +1,7 @@
 package cartes;
 
-import java.util.List;
-import java.util.ListIterator;
 import java.util.ArrayList;
-import java.util.Arrays;
+import utils.*;
 
 public class JeuDeCartes {
 	private Carte[] typesDeCartes;
@@ -44,6 +42,8 @@ public class JeuDeCartes {
 				listeCartes.add(carte);
 			}
 		}
+		
+		this.listeCartes = (ArrayList<Carte>) Utils.melanger(listeCartes);
 	}
 	
 	public int checkCount() {

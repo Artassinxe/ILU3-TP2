@@ -14,7 +14,7 @@ import cartes.JeuDeCartes;
 class UtilsTest {
 
 	@Test
-	void test() {
+	void testExtraire() {
 		JeuDeCartes set = new JeuDeCartes();
 		List<Carte> liste = set.getListeCartes();
 		List<Carte> listeVide = new ArrayList<>();
@@ -25,9 +25,16 @@ class UtilsTest {
 		Utils.extraireIterator(liste);
 		assertEquals(oldSize-2,liste.size());
 		assertEquals(null,Utils.extraireIterator(listeVide));
-		Utils.melanger(liste);
-		assertEquals(0,liste.size());
-		 
+	}
+	
+	@Test
+	void testMelanger() {
+		JeuDeCartes set = new JeuDeCartes();
+		assertEquals(true,set.checkCount());
+		set.setListeCartes((ArrayList<Carte>) Utils.melanger(set.getListeCartes()));
+		assertEquals(true,set.checkCount());
+		Utils.extraire(set.getListeCartes());
+		assertEquals(false,set.checkCount());
 	}
 	
 	@Test
@@ -62,6 +69,9 @@ class UtilsTest {
         assertEquals(result, Utils.rassembler(liste));
         liste = Arrays.asList(0, 0, 1, 1, 2, 2, 2, 3);
         result = Arrays.asList(0, 0, 1, 1, 2, 2, 2, 3);
+        assertEquals(result, Utils.rassembler(liste));
+        liste = Arrays.asList(2, 0, 3, 1, 2, 3, 2);
+        result = Arrays.asList(2, 2, 2, 0, 3, 3, 1);
         assertEquals(result, Utils.rassembler(liste));
     }
 	

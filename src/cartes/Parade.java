@@ -10,22 +10,7 @@ public class Parade extends Bataille {
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("Parade : ");
-		switch (this.getType()) {
-		case FEU:
-			sb.append("Le feu devient vert !");
-			break;
-		case ESSENCE:
-			sb.append("Un camion citerne est en route !");
-			break;
-		case CREVAISON:
-			sb.append("Pneu de secours à votre disposition !");
-			break;
-		case ACCIDENT:
-			sb.append("Une dépanneuse est en route");
-			break;
-		default:
-			sb.append("non valide");
-		}
+		sb.append(this.getType().toString());
 		return sb.toString();
 	}
 

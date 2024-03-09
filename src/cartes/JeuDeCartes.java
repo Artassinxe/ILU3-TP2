@@ -1,7 +1,10 @@
 package cartes;
 
 import java.util.ArrayList;
-import utils.*;
+import java.util.Collections;
+import java.util.List;
+
+import utils.Utils;
 
 public class JeuDeCartes {
 	private Carte[] typesDeCartes;
@@ -36,52 +39,60 @@ public class JeuDeCartes {
 		typesDeCartes[18] = new Borne(4,200);
 		
 		for (Carte carte : typesDeCartes) {
-			int nbCarte = carte.nombreCarte;
-			carte.setNombreCarte(1);
-			for (int i = 0 ; i<nbCarte ; i++) {
-				listeCartes.add(carte);
-			}
+		    int nbCarte = carte.getNombreCarte();
+		    for (int i = 0; i < nbCarte; i++) {
+		    	Carte carteToAdd;
+		    	if (carte instanceof Attaque) {
+		    		carteToAdd = new Attaque(1, ((Probleme) carte).getType());
+		    	}else if (carte instanceof Parade) {
+		    		carteToAdd = new Parade(1, ((Probleme) carte).getType());
+		    	}else if (carte instanceof Botte) {
+		    		carteToAdd = new Botte(1, ((Probleme) carte).getType());
+		    	}else if (carte instanceof DebutLimite) {
+		    		carteToAdd = new DebutLimite(1);
+		    	}else if (carte instanceof FinLimite) {
+		    		carteToAdd = new FinLimite(1);
+		    	}else {
+		    		carteToAdd = new Borne(1, ((Borne) carte).getKm());
+		    	}
+		        listeCartes.add(carteToAdd);
+		    }
 		}
 		
 		this.listeCartes = (ArrayList<Carte>) Utils.melanger(listeCartes);
+
 	}
 	
-	public int checkCount() {
-		return this.listeCartes.size();
-	}
-	
-	public int checkCount(Type type) {
-		int count = 0;
-		for (Carte carte : this.listeCartes) {
-			if (carte instanceof Probleme && (((Probleme) carte).getType() == type))
-				count++;
+	@Override
+	public String toString() {
+		StringBuilder stringB = new StringBuilder();
+		for(Carte carte : listeCartes) {
+			stringB.append(carte.nombreCarte);
+			stringB.append(' ');
+			stringB.append(carte.toString()+'\n');
 		}
-		return count;
+		return stringB.toString();
 	}
 	
-	public int checkCount(Class<? extends Carte> type) {
-	    int count = 0;
-	    for (Carte carte : this.listeCartes) {
-	        if (type.isInstance(carte)) {
-	            count++;
-	        }
-	    }
-	    return count;
-	}
-
-
-	/**
-	 * @return the typesDeCartes
-	 */
-	public Carte[] getTypesDeCartes() {
-		return typesDeCartes;
+	public boolean checkCount() {
+		for (Carte carte : typesDeCartes) {
+			if (carte.nombreCarte != Collections.frequency(listeCartes, carte)) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	/**
 	 * @return the listeCartes
 	 */
-	public ArrayList<Carte> getListeCartes() {
+	public List<Carte> getListeCartes() {
 		return listeCartes;
+	}
+
+
+	public void setListeCartes(ArrayList<Carte> listeCartes) {
+		this.listeCartes = listeCartes;
 	}
 
 }

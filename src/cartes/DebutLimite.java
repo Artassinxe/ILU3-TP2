@@ -8,7 +8,7 @@ public class DebutLimite extends Limite {
 
 	@Override
 	public String toString() {
-		return "Limite de vitesse imposée";
+		return "Limite imposée";
 	}
 
 }

@@ -22,23 +22,22 @@ public class Utils {
 	    }
 		int index = new Random().nextInt(liste.size());
 		E obj = null;
-		int i = 0;
-		for (ListIterator<E> iterator = liste.listIterator();i <= index;) {
+		ListIterator<E> iterator = liste.listIterator();
+		for (int i = 0;i <= index;i++) { 
 			obj = iterator.next();
 			if (i == index) {
 				iterator.remove();
 			}
-			i++;
 		}
 		return obj;
 	}
 	
 	public static <E> List<E> melanger(List<E> liste) {
-		List<E> liste2 = new ArrayList<>();
-		while(liste.size()!=0) {
-			liste2.add(Utils.extraire(liste));
+		List<E> result = new ArrayList<>();
+		while(!liste.isEmpty()) {
+			result.add(Utils.extraire(liste));
 		}
-		return liste2;
+		return result;
 	}
 	
 	public static <E> Boolean verifierMelange(List<E> liste1, List<E> liste2) {
@@ -58,9 +57,8 @@ public class Utils {
 	
 	public static <E> List<E> rassembler(List<E> liste) {
 	    List<E> newList = new ArrayList<>();
-	    int lastIndex = 0;
 	    for (E obj : liste) {
-	    	lastIndex = newList.lastIndexOf(obj);
+	    	int lastIndex = newList.lastIndexOf(obj);
 	    	if (lastIndex!=-1) newList.add(lastIndex, obj);
 	    	else newList.add(obj);
 	    }
@@ -71,19 +69,15 @@ public class Utils {
 		E obj = null;
 		E nextObj = null;
 		ListIterator<E> iterator = liste.listIterator();
-		
-		if(iterator.hasNext()) {
-			obj = iterator.next();
-		}else return true;
+		if(!iterator.hasNext()) return true;
+		obj = iterator.next();
 		
 		while(iterator.hasNext()) { 
 			nextObj = iterator.next();
 			if (!obj.equals(nextObj)) {
-				for(ListIterator<E> iterator2 = liste.listIterator(iterator.nextIndex());iterator2.hasNext();) {
-					E compObj = iterator2.next();
-					if(compObj.equals(obj)) {
-						return false;
-					}
+				ListIterator<E> iterator2 = liste.listIterator(iterator.nextIndex());
+				while(iterator2.hasNext()) {
+					if(iterator2.next().equals(obj)) return false;
 				}
 			}
 			obj = nextObj;

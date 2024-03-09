@@ -12,5 +12,21 @@ public abstract class Carte {
 	}
 
 	public abstract String toString();
+
+	public int getNombreCarte() {
+		return nombreCarte;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+	        return true;
+	    }
+	    if (obj == null || getClass() != obj.getClass()) {
+	        return false;
+	    }else {
+	    	return true;
+	    }
+	}
 	
 }

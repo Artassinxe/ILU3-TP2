@@ -10,22 +10,7 @@ public class Attaque extends Bataille {
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("Attaque : ");
-		switch (this.getType()) {
-		case FEU:
-			sb.append("Le feu devient rouge");
-			break;
-		case ESSENCE:
-			sb.append("Oups, plus d'essence");
-			break;
-		case CREVAISON:
-			sb.append("Un pneu crevé et un !");
-			break;
-		case ACCIDENT:
-			sb.append("Votre véhicule est accidenté");
-			break;
-		default:
-			sb.append("non valide");
-		}
+		sb.append(this.getType().toString());
 		return sb.toString();
 	}
 

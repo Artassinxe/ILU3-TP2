@@ -10,17 +10,16 @@ public class Borne extends Carte {
 
 	@Override
 	public String toString() {
-		return "Borne " + this.km + " km n°" + this.nombreCarte;
+		StringBuilder sb = new StringBuilder();
+		sb.append("Borne à ");
+		sb.append(this.km);
+		sb.append(" km");
+		return sb.toString();
 	}
 	
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj) {
-	        return true;
-	    }
-	    if (obj == null || getClass() != obj.getClass()) {
-	        return false;
-	    }
+		if (!super.equals(obj)) return false;
 	    Borne toCompare = (Borne) obj;
 	    return this.km == toCompare.km;
 	}

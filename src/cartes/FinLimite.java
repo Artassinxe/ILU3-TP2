@@ -8,7 +8,7 @@ public class FinLimite extends Limite {
 
 	@Override
 	public String toString() {
-		return "Fin de la limite de vitesse imposée";
+		return "Fin de la limite";
 	}
 
 }

@@ -6,21 +6,71 @@ import java.util.*;
 public class Joueur {
 	
 	private String nom;
-	private ArrayList<DebutLimite> piledebutLimite;
-	private ArrayList<FinLimite> pileFinLimite;
-	private ArrayList<Bataille> pileBataille;
-	private ArrayList<Borne> pileBorne;
-	private HashSet<Botte> ensembleBotte;
+	private MainAsList main;
+	private List<DebutLimite> piledebutLimite;
+	private List<FinLimite> pileFinLimite;
+	private List<Bataille> pileBataille;
+	public Collection<Borne> getCollectionBorne() {
+		return collectionBorne;
+	}
+
+	public void setCollectionBorne(Collection<Borne> collectionBorne) {
+		this.collectionBorne = collectionBorne;
+	}
+
+	public void setMain(MainAsList main) {
+		this.main = main;
+	}
+
+	public void setPiledebutLimite(List<DebutLimite> piledebutLimite) {
+		this.piledebutLimite = piledebutLimite;
+	}
+
+	public void setPileFinLimite(List<FinLimite> pileFinLimite) {
+		this.pileFinLimite = pileFinLimite;
+	}
+
+	private Collection<Borne> collectionBorne;
+	private Set<Botte> ensembleBotte;
 	
 	public Joueur(String nom) {
 		super();
 		this.nom = nom;
+		this.main = new MainAsList();
 		this.piledebutLimite = new ArrayList<>();
 		this.pileFinLimite = new ArrayList<>();
 		this.pileBataille = new ArrayList<>();
-		this.pileBorne = new ArrayList<>();
+		this.collectionBorne = new HashSet<>();
 		this.ensembleBotte = new HashSet<>();
 	}
+	
+	public void donner(Joueur joueur, Carte carte) {
+		MainAsList mainJoueur = joueur.getMain();
+		main.jouer(carte);
+		mainJoueur.prendre(carte);
+	}
+	
+	public Carte prendreCarte(List<Carte> sabot) {
+		if(sabot.isEmpty()) {
+			return null;
+		}
+		Carte carte = sabot.remove(0);
+		main.prendre(carte);
+		return carte;
+	}
+	
+	public int getKm() {
+		Collection<Borne> liste = collectionBorne;
+		int distance = 0;
+		for(Carte carte: liste) {
+			if(carte instanceof Borne) {
+				distance+=((Borne) carte).getKm();
+			}
+		}
+		return distance;
+	}
+	
+	
 	
 	@Override
 	public boolean equals(Object obj) {
@@ -30,7 +80,6 @@ public class Joueur {
 		}
 		return false;
 	}
-	
 	
 	/**
 	 * @return the nom
@@ -47,7 +96,7 @@ public class Joueur {
 	/**
 	 * @return the piledebutLimite
 	 */
-	public ArrayList<DebutLimite> getPiledebutLimite() {
+	public List<DebutLimite> getPiledebutLimite() {
 		return piledebutLimite;
 	}
 	/**
@@ -59,7 +108,7 @@ public class Joueur {
 	/**
 	 * @return the pileFinLimite
 	 */
-	public ArrayList<FinLimite> getPileFinLimite() {
+	public List<FinLimite> getPileFinLimite() {
 		return pileFinLimite;
 	}
 	/**
@@ -71,38 +120,32 @@ public class Joueur {
 	/**
 	 * @return the pileBataille
 	 */
-	public ArrayList<Bataille> getPileBataille() {
+	public List<Bataille> getPileBataille() {
 		return pileBataille;
 	}
 	/**
 	 * @param pileBataille the pileBataille to set
 	 */
-	public void setPileBataille(ArrayList<Bataille> pileBataille) {
+	public void setPileBataille(List<Bataille> pileBataille) {
 		this.pileBataille = pileBataille;
 	}
-	/**
-	 * @return the pileBorne
-	 */
-	public ArrayList<Borne> getPileBorne() {
-		return pileBorne;
-	}
-	/**
-	 * @param pileBorne the pileBorne to set
-	 */
-	public void setPileBorne(ArrayList<Borne> pileBorne) {
-		this.pileBorne = pileBorne;
-	}
+
+	
 	/**
 	 * @return the ensembleBotte
 	 */
-	public HashSet<Botte> getEnsembleBotte() {
+	public Set<Botte> getEnsembleBotte() {
 		return ensembleBotte;
 	}
 	/**
 	 * @param ensembleBotte the ensembleBotte to set
 	 */
-	public void setEnsembleBotte(HashSet<Botte> ensembleBotte) {
+	public void setEnsembleBotte(Set<Botte> ensembleBotte) {
 		this.ensembleBotte = ensembleBotte;
+	}
+
+	public MainAsList getMain() {
+		return main;
 	}
 	
 	

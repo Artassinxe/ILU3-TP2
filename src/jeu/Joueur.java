@@ -7,29 +7,8 @@ public class Joueur {
 	
 	private String nom;
 	private MainAsList main;
-	private List<DebutLimite> piledebutLimite;
-	private List<FinLimite> pileFinLimite;
+	private List<Limite> pileLimite;
 	private List<Bataille> pileBataille;
-	public Collection<Borne> getCollectionBorne() {
-		return collectionBorne;
-	}
-
-	public void setCollectionBorne(Collection<Borne> collectionBorne) {
-		this.collectionBorne = collectionBorne;
-	}
-
-	public void setMain(MainAsList main) {
-		this.main = main;
-	}
-
-	public void setPiledebutLimite(List<DebutLimite> piledebutLimite) {
-		this.piledebutLimite = piledebutLimite;
-	}
-
-	public void setPileFinLimite(List<FinLimite> pileFinLimite) {
-		this.pileFinLimite = pileFinLimite;
-	}
-
 	private Collection<Borne> collectionBorne;
 	private Set<Botte> ensembleBotte;
 	
@@ -37,8 +16,7 @@ public class Joueur {
 		super();
 		this.nom = nom;
 		this.main = new MainAsList();
-		this.piledebutLimite = new ArrayList<>();
-		this.pileFinLimite = new ArrayList<>();
+		this.pileLimite = new ArrayList<>();
 		this.pileBataille = new ArrayList<>();
 		this.collectionBorne = new HashSet<>();
 		this.ensembleBotte = new HashSet<>();
@@ -71,6 +49,26 @@ public class Joueur {
 	}
 	
 	
+	 public int getLimite() {
+		 Carte prio = new Botte(1,Type.VITESSE);
+		 if(pileLimite.isEmpty() || ensembleBotte.contains(prio)) {
+			 return 200;
+		 }else if (pileLimite.get(0).equals(new FinLimite(0))) {
+			 return 200;
+		 }else return 50;
+	 }
+	 
+	 public boolean estBloque() {
+		 boolean estBloque = true;
+//		 estBloque = false si une des conditions suivantes est validée
+//		 la pile de bataille est vide et il est prioritaire,
+//		 ● le sommet est une parade de type FEU,
+//		 ● le sommet est une parade et il est prioritaire,
+//		 ● le sommet est une attaque de type FEU et il est prioritaire,
+//		 ● le sommet est une attaque d’un autre type pour lequel il a une botte et il est prioritaire.
+		 return estBloque;
+	 }
+	
 	
 	@Override
 	public boolean equals(Object obj) {
@@ -93,30 +91,19 @@ public class Joueur {
 	public void setNom(String nom) {
 		this.nom = nom;
 	}
-	/**
-	 * @return the piledebutLimite
-	 */
-	public List<DebutLimite> getPiledebutLimite() {
-		return piledebutLimite;
+	
+	public Collection<Borne> getCollectionBorne() {
+		return collectionBorne;
 	}
-	/**
-	 * @param piledebutLimite the piledebutLimite to set
-	 */
-	public void setPiledebutLimite(ArrayList<DebutLimite> piledebutLimite) {
-		this.piledebutLimite = piledebutLimite;
+
+	public void setCollectionBorne(Collection<Borne> collectionBorne) {
+		this.collectionBorne = collectionBorne;
 	}
-	/**
-	 * @return the pileFinLimite
-	 */
-	public List<FinLimite> getPileFinLimite() {
-		return pileFinLimite;
+
+	public void setMain(MainAsList main) {
+		this.main = main;
 	}
-	/**
-	 * @param pileFinLimite the pileFinLimite to set
-	 */
-	public void setPileFinLimite(ArrayList<FinLimite> pileFinLimite) {
-		this.pileFinLimite = pileFinLimite;
-	}
+	
 	/**
 	 * @return the pileBataille
 	 */
@@ -146,6 +133,14 @@ public class Joueur {
 
 	public MainAsList getMain() {
 		return main;
+	}
+
+	public List<DebutLimite> getPileLimite() {
+		return pileLimite;
+	}
+
+	public void setPileLimite(List<DebutLimite> pileLimite) {
+		this.pileLimite = pileLimite;
 	}
 	
 	

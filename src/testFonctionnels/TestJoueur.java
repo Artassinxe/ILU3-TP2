@@ -19,7 +19,7 @@ public class TestJoueur {
         Borne borne4 = new Borne(1, 50);
         Borne borne5 = new Borne(1, 50);
         
-        joueur.deposer(borne1);
+        joueur.deposer(borne1); 
         joueur.deposer(borne2);
         joueur.deposer(borne3);
         joueur.deposer(borne4);

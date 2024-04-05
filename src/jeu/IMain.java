@@ -2,7 +2,7 @@ package jeu;
 import java.util.*;
 import cartes.*;
 
-public interface Main {
+public interface IMain {
 	
 void prendre(Carte carte);
 

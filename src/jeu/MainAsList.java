@@ -2,21 +2,22 @@ package jeu;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import cartes.Carte;
 
-public class MainAsList implements Main {
+public class MainAsList implements IMain {
 	
-	private ArrayList<Carte> liste;
+	private List<Carte> liste;
 	
 	public MainAsList() {
 		this.liste = new ArrayList<>();
 	}
 
-	public ArrayList<Carte> getListe() {
+	public List<Carte> getListe() {
 		return liste;
 	}
 
-	public void setListe(ArrayList<Carte> liste) {
+	public void setListe(List<Carte> liste) {
 		this.liste = liste;
 	}
 

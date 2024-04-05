@@ -52,9 +52,9 @@ public class Joueur {
 	}
 	
 	public int donnerLimitationVitesse() {
-		List pileLimite = zoneDeJeu.getPileLimite();
+		List<Limite> pileLimite = zoneDeJeu.getPileLimite();
 		Set<Botte> ensembleBotte = zoneDeJeu.getEnsembleBotte();
-	    if (pileLimite.isEmpty() || (pileLimite.get(0) instanceof FinLimite) || ensembleBotte.contains(Cartes.PRIORITAIRE)) {
+	    if (pileLimite.isEmpty() || (pileLimite.get(pileLimite.size() - 1) instanceof FinLimite) || ensembleBotte.contains(Cartes.PRIORITAIRE)) {
 	        return 200;
 	    } else {
 	        return 50;
@@ -62,16 +62,47 @@ public class Joueur {
 	}
 	 
 	public boolean estBloque() {
-		boolean estBloque = true;
-//		 estBloque = false si une des conditions suivantes est validée
-//		 la pile de bataille est vide et il est prioritaire,
-//		 ● le sommet est une parade de type FEU,
-//		 ● le sommet est une parade et il est prioritaire,
-//		 ● le sommet est une attaque de type FEU et il est prioritaire,
-//		 ● le sommet est une attaque d’un autre type pour lequel il a une botte et il est prioritaire.
-		return estBloque;
+	    List<Bataille> pileBataille = zoneDeJeu.getPileBataille();
+	    Set<Botte> ensembleBotte = zoneDeJeu.getEnsembleBotte();
+	    Boolean isPrioritaire = ensembleBotte.contains(Cartes.PRIORITAIRE);
+	    
+	    if (!pileBataille.isEmpty()) {
+	    	Carte sommet = pileBataille.get(pileBataille.size() - 1);
+	    	
+	    	if (sommet instanceof Parade) {
+	    		return !(sommet.equals(Cartes.FEU_VERT) || Boolean.TRUE.equals(isPrioritaire));
+	    	}
+	    	if (sommet instanceof Attaque) {
+	    		if (Boolean.TRUE.equals(isPrioritaire)) {
+	    			if (sommet.equals(Cartes.FEU_ROUGE)) {
+	    				return false;
+	    			}
+    				for (Botte botte : zoneDeJeu.getEnsembleBotte()) {
+    			        if (botte.getType() == ((Probleme) sommet).getType()) {
+    			            return false;
+    			        }
+    			    }
+	    		}
+	    	}
+	    	return true;
+	    }else return !Boolean.TRUE.equals(isPrioritaire);
 	}
-	
+
+	public void ajouter(Limite limite) {
+        zoneDeJeu.ajouter(limite);
+    }
+
+    public void ajouter(Bataille bataille) {
+        zoneDeJeu.ajouter(bataille);
+    }
+
+    public void ajouter(Botte botte) {
+        zoneDeJeu.ajouter(botte);
+    }
+
+    public void ajouter(Borne borne) {
+        zoneDeJeu.ajouter(borne);
+    }
 	
 	@Override
 	public boolean equals(Object obj) {

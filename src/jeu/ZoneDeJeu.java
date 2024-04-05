@@ -25,6 +25,22 @@ public class ZoneDeJeu {
 		this.ensembleBotte = new HashSet<>();
 	}
 	
+	public void ajouter(Limite limite) {
+        pileLimite.add(limite);
+    }
+
+    public void ajouter(Bataille bataille) {
+        pileBataille.add(bataille);
+    }
+
+    public void ajouter(Botte botte) {
+        ensembleBotte.add(botte);
+    }
+
+    public void ajouter(Borne borne) {
+        collectionBorne.add(borne);
+    }
+	
 	/**
 	 * @return the pileLimite
 	 */

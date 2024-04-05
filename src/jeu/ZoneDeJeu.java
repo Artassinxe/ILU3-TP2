@@ -30,12 +30,12 @@ public class ZoneDeJeu {
 	    } else if (carte instanceof FinLimite) {
 	        return !ensembleBotte.contains(Cartes.PRIORITAIRE) && donnerLimitationVitesse() == 50;
 	    } else if (carte instanceof Bataille) {
-	        return estDepotAutoriseeBatailleCase(carte);
+	        return estDepotAutoriseePourBataille(carte);
 	    }
 	    return carte instanceof Botte;
 	}
 	
-	private boolean estDepotAutoriseeBatailleCase(Carte carte) {
+	private boolean estDepotAutoriseePourBataille(Carte carte) {
 		Type carteType = ((Bataille) carte).getType();
 		Bataille top;
         if (pileBataille.isEmpty()) {
@@ -62,40 +62,35 @@ public class ZoneDeJeu {
 	}
 	
 	public boolean estBloque() {
-	    List<Bataille> pileBataille = this.getPileBataille();
-	    Set<Botte> ensembleBotte = this.getEnsembleBotte();
-	    Boolean isPrioritaire = ensembleBotte.contains(Cartes.PRIORITAIRE);
-	    
+	    boolean isPrioritaire = ensembleBotte.contains(Cartes.PRIORITAIRE);
 	    if (!pileBataille.isEmpty()) {
-	    	Carte sommet = pileBataille.get(pileBataille.size() - 1);
-	    	
-	    	if (sommet instanceof Parade) {
-	    		return !(sommet.equals(Cartes.FEU_VERT) || Boolean.TRUE.equals(isPrioritaire));
-	    	}
-	    	if (sommet instanceof Attaque) {
-	    		if (Boolean.TRUE.equals(isPrioritaire)) {
-	    			if (sommet.equals(Cartes.FEU_ROUGE)) {
-	    				return false;
-	    			}
-    				for (Botte botte : this.getEnsembleBotte()) {
-    			        if (botte.getType() == ((Probleme) sommet).getType()) {
-    			            return false;
-    			        }
-    			    }
-	    		}
-	    	}
-	    	return true;
-	    }else return !Boolean.TRUE.equals(isPrioritaire);
-	}
-	
-	public int donnerLimitationVitesse() {
-		List<Limite> pileLimite = this.getPileLimite();
-		Set<Botte> ensembleBotte = this.getEnsembleBotte();
-	    if (pileLimite.isEmpty() || (pileLimite.get(pileLimite.size() - 1) instanceof FinLimite) || ensembleBotte.contains(Cartes.PRIORITAIRE)) {
-	        return 200;
+	        Carte sommet = getSommetBataille();
+	        if (sommet instanceof Parade) {
+	        	return !sommet.equals(Cartes.FEU_VERT) && !isPrioritaire;
+	        }
+	        if (sommet instanceof Attaque && isPrioritaire) {
+	            return estBloquePourAttaque(sommet);
+	        }
+	        return true;
 	    } else {
-	        return 50;
+	        return !isPrioritaire;
 	    }
+	}
+
+	private boolean estBloquePourAttaque(Carte sommet) {
+	    if (sommet.equals(Cartes.FEU_ROUGE)) {
+	        return false;
+	    }
+	    for (Botte botte : ensembleBotte) {
+	        if (botte.getType() == ((Probleme) sommet).getType()) {
+	            return false;
+	        }
+	    }
+	    return true;
+	}
+
+	public int donnerLimitationVitesse() {
+		return pileLimite.isEmpty() || getSommetLimite() instanceof FinLimite || ensembleBotte.contains(Cartes.PRIORITAIRE) ? 200 : 50;
 	}
 	
 	public void ajouter(Limite limite) {
@@ -120,6 +115,10 @@ public class ZoneDeJeu {
 	public List<Limite> getPileLimite() {
 		return pileLimite;
 	}
+	
+	private Limite getSommetLimite() {
+		return pileLimite.get(pileLimite.size()-1);
+	}
 
 	/**
 	 * @param pileLimite the pileLimite to set
@@ -133,6 +132,10 @@ public class ZoneDeJeu {
 	 */
 	public List<Bataille> getPileBataille() {
 		return pileBataille;
+	}
+	
+	private Bataille getSommetBataille() {
+		return pileBataille.get(pileBataille.size()-1);
 	}
 
 	/**

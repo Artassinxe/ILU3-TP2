@@ -22,43 +22,43 @@ public class ZoneDeJeu {
 		this.ensembleBotte = new HashSet<>();
 	}
 	
-	boolean estDepotAutorise(Carte carte, Joueur joueur) {
+	public boolean estDepotAutorise(Carte carte) {
 		if (carte instanceof Borne) {
-			int sommeBorne = 0;
-			for(Borne borne : collectionBorne) {
-				sommeBorne+=borne.getKm();
-			}
-			if (!this.estBloque() && ((Borne) carte).getKm() < this.donnerLimitationVitesse() && sommeBorne <= 1000) {
-				return true;
-			}
-		}
-		if (carte instanceof Botte) {
-			return true;
-		}
-		if (carte instanceof DebutLimite) {
-			if (!this.ensembleBotte.contains(Cartes.PRIORITAIRE) && this.donnerLimitationVitesse() == 200) {
-				return true;
-			}
-		}
-		if (carte instanceof FinLimite) {
-			if (!this.ensembleBotte.contains(Cartes.PRIORITAIRE) && this.donnerLimitationVitesse() == 50) {
-				return true;
-			}
-		}
-		if (carte instanceof Bataille) {
-			Bataille top;
-			int pileBatailleSize = this.pileBataille.size();
-			if (pileBatailleSize == 0 && (this.ensembleBotte.contains(Cartes.PRIORITAIRE) || carte.equals(Cartes.FEU_ROUGE))) {
-				top = Cartes.FEU_VERT;
-			}else {
-				top = this.pileBataille.get(pileBatailleSize-1);
-				if (top instanceof Attaque) {
-					// à completer
-				}
-			}
-			
-		}
-		return true;
+	    	return !estBloque() && ((Borne) carte).getKm() < donnerLimitationVitesse() && sommeBorne() <= 1000;
+	    } else if (carte instanceof DebutLimite) {
+	        return !ensembleBotte.contains(Cartes.PRIORITAIRE) && donnerLimitationVitesse() == 200;
+	    } else if (carte instanceof FinLimite) {
+	        return !ensembleBotte.contains(Cartes.PRIORITAIRE) && donnerLimitationVitesse() == 50;
+	    } else if (carte instanceof Bataille) {
+	        return estDepotAutoriseeBatailleCase(carte);
+	    }
+	    return carte instanceof Botte;
+	}
+	
+	private boolean estDepotAutoriseeBatailleCase(Carte carte) {
+		Type carteType = ((Bataille) carte).getType();
+		Bataille top;
+        if (pileBataille.isEmpty()) {
+        	top = ensembleBotte.contains(Cartes.PRIORITAIRE) || carte.equals(Cartes.FEU_ROUGE) ? Cartes.FEU_VERT : Cartes.FEU_ROUGE;
+        } else {
+        	top = pileBataille.get(pileBataille.size() - 1);
+        }
+        if (top instanceof Attaque && carte instanceof Parade) {
+        	Type topType = top.getType();
+        	return (carteType == topType) && !this.ensembleBotte.contains(new Botte(1, topType));
+        }
+        else if (top instanceof Parade && carte instanceof Attaque){
+        	return !this.ensembleBotte.contains(new Botte(1, carteType));
+        }
+		return false;
+	}
+	
+	private int sommeBorne() {
+	    int sommeBorne = 0;
+	    for (Borne borne : collectionBorne) {
+	        sommeBorne += borne.getKm();
+	    }
+	    return sommeBorne;
 	}
 	
 	public boolean estBloque() {

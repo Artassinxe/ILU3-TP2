@@ -5,9 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import cartes.Attaque;
-import cartes.Parade;
-import cartes.Type;
+import cartes.*;
 
 public class TestZoneDeJeu {
 
@@ -18,6 +16,24 @@ public class TestZoneDeJeu {
     public void setUp() {
     	joueur = new Joueur("Anthony");
         zoneDeJeu = joueur.getZoneDeJeu();
+    }
+    
+    @Test
+    public void testDistanceParcourue() {
+
+        Borne borne1 = new Borne(1, 25);
+        Borne borne2 = new Borne(1, 25);
+        Borne borne3 = new Borne(1, 25);
+        Borne borne4 = new Borne(1, 50);
+        Borne borne5 = new Borne(1, 50);
+
+        joueur.deposer(borne1);
+        joueur.deposer(borne2);
+        joueur.deposer(borne3);
+        joueur.deposer(borne4);
+        joueur.deposer(borne5);
+
+        assertEquals(175, joueur.donnerKmParcourus());
     }
 
     @Test
@@ -54,5 +70,28 @@ public class TestZoneDeJeu {
         // Ajouter un feu vert
         zoneDeJeu.ajouter(Cartes.FEU_VERT);
         assertEquals(false, joueur.estBloque());
+    }
+    
+    @Test
+    public void testSansLimite() {
+        assertEquals(200, joueur.donnerLimitationVitesse());
+    }
+
+    @Test
+    public void testAvecLimite() {
+        zoneDeJeu.ajouter(new DebutLimite(1));
+        assertEquals(50, joueur.donnerLimitationVitesse());
+    }
+
+    @Test
+    public void testAvecFinLimite() {
+        zoneDeJeu.ajouter(new FinLimite(1));
+        assertEquals(200, joueur.donnerLimitationVitesse());
+    }
+
+    @Test
+    public void testAvecBottePrioritaire() {
+        zoneDeJeu.ajouter(Cartes.PRIORITAIRE);
+        assertEquals(200, joueur.donnerLimitationVitesse());
     }
 }

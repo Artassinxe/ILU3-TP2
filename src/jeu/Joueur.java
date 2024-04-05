@@ -50,43 +50,6 @@ public class Joueur {
 		}
 		return distance;
 	}
-	
-	public int donnerLimitationVitesse() {
-		List<Limite> pileLimite = zoneDeJeu.getPileLimite();
-		Set<Botte> ensembleBotte = zoneDeJeu.getEnsembleBotte();
-	    if (pileLimite.isEmpty() || (pileLimite.get(pileLimite.size() - 1) instanceof FinLimite) || ensembleBotte.contains(Cartes.PRIORITAIRE)) {
-	        return 200;
-	    } else {
-	        return 50;
-	    }
-	}
-	 
-	public boolean estBloque() {
-	    List<Bataille> pileBataille = zoneDeJeu.getPileBataille();
-	    Set<Botte> ensembleBotte = zoneDeJeu.getEnsembleBotte();
-	    Boolean isPrioritaire = ensembleBotte.contains(Cartes.PRIORITAIRE);
-	    
-	    if (!pileBataille.isEmpty()) {
-	    	Carte sommet = pileBataille.get(pileBataille.size() - 1);
-	    	
-	    	if (sommet instanceof Parade) {
-	    		return !(sommet.equals(Cartes.FEU_VERT) || Boolean.TRUE.equals(isPrioritaire));
-	    	}
-	    	if (sommet instanceof Attaque) {
-	    		if (Boolean.TRUE.equals(isPrioritaire)) {
-	    			if (sommet.equals(Cartes.FEU_ROUGE)) {
-	    				return false;
-	    			}
-    				for (Botte botte : zoneDeJeu.getEnsembleBotte()) {
-    			        if (botte.getType() == ((Probleme) sommet).getType()) {
-    			            return false;
-    			        }
-    			    }
-	    		}
-	    	}
-	    	return true;
-	    }else return !Boolean.TRUE.equals(isPrioritaire);
-	}
 
 	public void ajouter(Limite limite) {
         zoneDeJeu.ajouter(limite);

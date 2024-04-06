@@ -24,7 +24,7 @@ public class ZoneDeJeu {
 	
 	public boolean estDepotAutorise(Carte carte) {
 		if (carte instanceof Borne) {
-	    	return !estBloque() && ((Borne) carte).getKm() < donnerLimitationVitesse() && sommeBorne() <= 1000;
+	    	return !estBloque() && ((Borne) carte).getKm() <= donnerLimitationVitesse() && sommeBorne() <= 1000;
 	    } else if (carte instanceof DebutLimite) {
 	        return !ensembleBotte.contains(Cartes.PRIORITAIRE) && donnerLimitationVitesse() == 200;
 	    } else if (carte instanceof FinLimite) {
@@ -41,7 +41,7 @@ public class ZoneDeJeu {
         if (pileBataille.isEmpty()) {
         	top = ensembleBotte.contains(Cartes.PRIORITAIRE) || carte.equals(Cartes.FEU_ROUGE) ? Cartes.FEU_VERT : Cartes.FEU_ROUGE;
         } else {
-        	top = pileBataille.get(pileBataille.size() - 1);
+        	top = getSommetBataille();
         }
         if (top instanceof Attaque && carte instanceof Parade) {
         	Type topType = top.getType();
@@ -91,6 +91,41 @@ public class ZoneDeJeu {
 
 	public int donnerLimitationVitesse() {
 		return pileLimite.isEmpty() || getSommetLimite() instanceof FinLimite || ensembleBotte.contains(Cartes.PRIORITAIRE) ? 200 : 50;
+	}
+	
+	public int donnerKmParcourus() {
+		int distance = 0;
+		for(Carte carte: collectionBorne) {
+			if(carte instanceof Borne) {
+				distance+=((Borne) carte).getKm();
+			}
+		}
+		return distance;
+	}
+	
+	protected boolean deposer(Carte carte) {
+		if(carte instanceof Borne) {
+			ajouter((Borne)carte);
+			return true;
+		}else if(carte instanceof Botte) {
+			ajouter((Botte)carte);
+			Bataille sommet = getSommetBataille();
+			Type typeSommet = sommet.getType();
+			if(sommet instanceof Attaque && ((Botte) carte).getType() == typeSommet) {
+				pileBataille.remove(pileBataille.size()-1);
+			}
+			return true;
+		}else if(carte instanceof DebutLimite) {
+			ajouter((DebutLimite)carte);
+			return true;
+		}else if(carte instanceof FinLimite) {
+			ajouter((FinLimite)carte);
+			return true;
+		}else if(carte instanceof Bataille) {
+			ajouter((Bataille)carte);
+			return true;
+		}
+		return false;
 	}
 	
 	public void ajouter(Limite limite) {

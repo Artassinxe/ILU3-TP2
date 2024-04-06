@@ -16,6 +16,28 @@ public class Joueur {
 		this.zoneDeJeu = new ZoneDeJeu();
 	}
 	
+	public Set<Coup> coupsPossibles(Set<Joueur> participants) {
+		HashSet<Coup> ensembleCoup = new HashSet<>();
+		List<Carte> mainListe = main.getListe();
+		for(Carte carte : mainListe) {
+			for(Joueur participant : participants) {
+				Coup coup = new Coup(carte,participant);
+				if(Boolean.TRUE.equals(coup.estValide(this))) ensembleCoup.add(coup);
+			}
+		}
+		return ensembleCoup;
+	}
+	
+	public Set<Coup> coupsDefausse() {
+		HashSet<Coup> ensembleCoup = new HashSet<>();
+		List<Carte> mainListe = main.getListe();
+		for(Carte carte : mainListe) {
+			Coup coup = new Coup(carte,null);
+			ensembleCoup.add(coup);
+		}
+		return ensembleCoup;
+	}
+	
 	public void donner(Joueur joueur, Carte carte) {
 		MainAsList mainJoueur = joueur.getMain();
 		main.jouer(carte);
@@ -31,24 +53,13 @@ public class Joueur {
 		return carte;
 	}
 	
-	public void deposer(Borne borne) throws IllegalArgumentException {
-	    if (borne instanceof Borne) {
-	        Collection<Borne> liste = zoneDeJeu.getCollectionBorne();
-	        liste.add(borne);
-	    } else {
-	        throw new IllegalArgumentException("L'objet passé en paramètre n'est pas une instance de Borne");
-	    }
+	public void deposer(Borne borne) {
+        Collection<Borne> liste = zoneDeJeu.getCollectionBorne();
+        liste.add(borne);
 	}
 	
-	public int donnerKmParcourus() {
-		Collection<Borne> liste = zoneDeJeu.getCollectionBorne();;
-		int distance = 0;
-		for(Carte carte: liste) {
-			if(carte instanceof Borne) {
-				distance+=((Borne) carte).getKm();
-			}
-		}
-		return distance;
+	public boolean deposer(Carte carte) {
+		return zoneDeJeu.deposer(carte);
 	}
 
 	public void ajouter(Limite limite) {
@@ -66,6 +77,11 @@ public class Joueur {
     public void ajouter(Borne borne) {
         zoneDeJeu.ajouter(borne);
     }
+    
+    @Override
+	public int hashCode() {
+    	return nom.hashCode();
+	}
 	
 	@Override
 	public boolean equals(Object obj) {

@@ -33,7 +33,7 @@ public class TestZoneDeJeu {
         joueur.deposer(borne4);
         joueur.deposer(borne5);
 
-        assertEquals(175, joueur.donnerKmParcourus());
+        assertEquals(175, zoneDeJeu.donnerKmParcourus());
     }
 
     @Test
@@ -41,57 +41,57 @@ public class TestZoneDeJeu {
     	
         // Ajouter un feu rouge
         zoneDeJeu.ajouter(Cartes.FEU_ROUGE);
-        assertEquals(true, joueur.estBloque());
+        assertEquals(true, zoneDeJeu.estBloque());
 
         // Ajouter un véhicule prioritaire
         zoneDeJeu.ajouter(Cartes.PRIORITAIRE);
-        assertEquals(false, joueur.estBloque());
+        assertEquals(false, zoneDeJeu.estBloque());
 
         // Ajouter un accident
         zoneDeJeu.ajouter(new Attaque(1, Type.ACCIDENT));
-        assertEquals(true, joueur.estBloque());
+        assertEquals(true, zoneDeJeu.estBloque());
 
         // Ajouter un as du volant
         zoneDeJeu.ajouter(new Parade(1, Type.ACCIDENT));
-        assertEquals(false, joueur.estBloque());
+        assertEquals(false, zoneDeJeu.estBloque());
 
         // Ajouter une panne d'essence
         zoneDeJeu.ajouter(new Attaque(1, Type.ESSENCE));
-        assertEquals(true, joueur.estBloque());
+        assertEquals(true, zoneDeJeu.estBloque());
 
         // Ajouter de l'essence
         zoneDeJeu.ajouter(new Parade(1, Type.ESSENCE));
-        assertEquals(false, joueur.estBloque());
+        assertEquals(false, zoneDeJeu.estBloque());
 
         // Effacer les bottes
         zoneDeJeu.getEnsembleBotte().clear();
-        assertEquals(true, joueur.estBloque());
+        assertEquals(true, zoneDeJeu.estBloque());
 
         // Ajouter un feu vert
         zoneDeJeu.ajouter(Cartes.FEU_VERT);
-        assertEquals(false, joueur.estBloque());
+        assertEquals(false, zoneDeJeu.estBloque());
     }
     
     @Test
     public void testSansLimite() {
-        assertEquals(200, joueur.donnerLimitationVitesse());
+        assertEquals(200, zoneDeJeu.donnerLimitationVitesse());
     }
 
     @Test
     public void testAvecLimite() {
         zoneDeJeu.ajouter(new DebutLimite(1));
-        assertEquals(50, joueur.donnerLimitationVitesse());
+        assertEquals(50, zoneDeJeu.donnerLimitationVitesse());
     }
 
     @Test
     public void testAvecFinLimite() {
         zoneDeJeu.ajouter(new FinLimite(1));
-        assertEquals(200, joueur.donnerLimitationVitesse());
+        assertEquals(200, zoneDeJeu.donnerLimitationVitesse());
     }
 
     @Test
     public void testAvecBottePrioritaire() {
         zoneDeJeu.ajouter(Cartes.PRIORITAIRE);
-        assertEquals(200, joueur.donnerLimitationVitesse());
+        assertEquals(200, zoneDeJeu.donnerLimitationVitesse());
     }
 }

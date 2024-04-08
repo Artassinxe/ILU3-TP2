@@ -38,6 +38,10 @@ public class Joueur {
 		return ensembleCoup;
 	}
 	
+	public void retirerDeLaMain(Carte carte) {
+		main.jouer(carte);
+	}
+	
 	public void donner(Joueur joueur, Carte carte) {
 		MainAsList mainJoueur = joueur.getMain();
 		main.jouer(carte);

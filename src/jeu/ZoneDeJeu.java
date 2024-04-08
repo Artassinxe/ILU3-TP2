@@ -57,7 +57,7 @@ public class ZoneDeJeu {
 	    int sommeBorne = 0;
 	    for (Borne borne : collectionBorne) {
 	        sommeBorne += borne.getKm();
-	    }
+	    } 
 	    return sommeBorne;
 	}
 	
@@ -104,9 +104,11 @@ public class ZoneDeJeu {
 	}
 	
 	protected boolean deposer(Carte carte) {
+		if(!this.estDepotAutorise(carte)) {
+			return false;
+		}
 		if(carte instanceof Borne) {
 			ajouter((Borne)carte);
-			return true;
 		}else if(carte instanceof Botte) {
 			ajouter((Botte)carte);
 			Bataille sommet = getSommetBataille();
@@ -114,18 +116,14 @@ public class ZoneDeJeu {
 			if(sommet instanceof Attaque && ((Botte) carte).getType() == typeSommet) {
 				pileBataille.remove(pileBataille.size()-1);
 			}
-			return true;
 		}else if(carte instanceof DebutLimite) {
 			ajouter((DebutLimite)carte);
-			return true;
 		}else if(carte instanceof FinLimite) {
 			ajouter((FinLimite)carte);
-			return true;
 		}else if(carte instanceof Bataille) {
 			ajouter((Bataille)carte);
-			return true;
 		}
-		return false;
+		return true;
 	}
 	
 	public void ajouter(Limite limite) {

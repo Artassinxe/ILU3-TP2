@@ -1,6 +1,8 @@
 package jeu;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -10,12 +12,14 @@ import cartes.*;
 public class TestZoneDeJeu {
 
     private ZoneDeJeu zoneDeJeu;
+    private ZoneDeJeu zone;
     private Joueur joueur;
 
     @BeforeEach
     public void setUp() {
     	joueur = new Joueur("Anthony");
         zoneDeJeu = joueur.getZoneDeJeu();
+        zone = new ZoneDeJeu();
     }
     
     @Test
@@ -71,6 +75,35 @@ public class TestZoneDeJeu {
         zoneDeJeu.ajouter(Cartes.FEU_VERT);
         assertEquals(false, zoneDeJeu.estBloque());
     }
+    
+    @Test
+    public void testDepotAutoriseBloque1() {
+    	assertTrue(zone.deposer(Cartes.FEU_ROUGE));
+        assertTrue(zone.estBloque());
+        assertFalse(zone.deposer(Cartes.ACCIDENT));
+        assertTrue(zone.estBloque());
+        assertTrue(zone.deposer(Cartes.AS_DU_VOLANT));
+        assertTrue(zone.estBloque());
+        assertFalse(zone.deposer(Cartes.PANNE_ESSENCE));
+        assertTrue(zone.estBloque());
+        assertFalse(zone.deposer(Cartes.ESSENCE));
+        assertTrue(zone.estBloque());
+        assertTrue(zone.deposer(Cartes.FEU_VERT));
+        assertFalse(zone.estBloque());
+        assertTrue(zone.deposer(new Borne(1, 100)));
+        assertFalse(zone.estBloque());
+        assertTrue(zone.deposer(Cartes.LIMITE));
+        assertFalse(zone.estBloque());
+        assertFalse(zone.deposer(new Borne(1, 100)));
+        assertFalse(zone.estBloque());
+        assertTrue(zone.deposer(new Borne(1, 25)));
+        assertFalse(zone.estBloque());
+        assertTrue(zone.deposer(Cartes.FIN_LIMITE));
+        assertFalse(zone.estBloque());
+        assertTrue(zone.deposer(new Borne(1, 100)));
+        assertFalse(zone.estBloque());
+    }
+
     
     @Test
     public void testSansLimite() {

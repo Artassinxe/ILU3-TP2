@@ -38,6 +38,30 @@ public class Joueur {
 		return ensembleCoup;
 	}
 	
+	public Coup choisirCoup(Set<Joueur> participants) {
+	    Set<Coup> coupsPossibles = coupsPossibles(participants);
+
+	    if (!coupsPossibles.isEmpty()) {
+	        return choisirCoupAleatoire(coupsPossibles);
+	    } else {
+	        Set<Coup> coupsDefausse = coupsDefausse();
+	        return choisirCoupAleatoire(coupsDefausse);
+	    }
+	}
+
+	private Coup choisirCoupAleatoire(Set<Coup> coups) {
+	    int size = coups.size();
+	    int item = new Random().nextInt(size);
+	    int i = 0;
+	    for (Coup coup : coups) {
+	        if (i == item) {
+	            return coup;
+	        }
+	        i++;
+	    }
+	    return null;
+	}
+	
 	public void retirerDeLaMain(Carte carte) {
 		main.jouer(carte);
 	}

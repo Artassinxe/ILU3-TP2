@@ -37,5 +37,20 @@ public class MainAsList implements IMain {
 	public Iterator<Carte> iterator() {
 		return this.liste.listIterator();
 	}
+	
+	@Override
+	public String toString() {
+	    StringBuilder sb = new StringBuilder();
+	    sb.append("[");
+	    for (int i = 0; i < liste.size(); i++) {
+	        sb.append(liste.get(i));
+	        if (i < liste.size() - 1) {
+	            sb.append(", ");
+	        }
+	    }
+	    sb.append("]");
+	    return sb.toString();
+	}
+
 
 }

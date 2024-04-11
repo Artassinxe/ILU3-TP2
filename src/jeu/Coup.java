@@ -33,6 +33,15 @@ public class Coup {
 				toComp.getCarte().equals(carte) && toComp.getCible().equals(cible);
 	}
 	
+	@Override
+	public String toString() {
+	    StringBuilder sb = new StringBuilder();
+	    sb.append(carte);
+	    sb.append(", Cible : ");
+	    sb.append(cible != null ? cible.getNom() : "Aucune");
+	    return sb.toString();
+	}
+	
 	Boolean estValide(Joueur joueur) {
 		return (!joueur.equals(cible) && (carte instanceof Attaque || carte instanceof DebutLimite));
 	}

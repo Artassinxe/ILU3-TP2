@@ -44,6 +44,30 @@ public class Jeu {
 	        }
 	    }
 	}
+	
+	public void jouerTour() {
+	    for (Joueur joueur : joueurs) {
+	        Carte carte = sabot.piocher();
+	        if (carte != null) {
+	        	System.out.println("Le joueur " + joueur.getNom() + " a pioché " + carte);
+	            System.out.println("Il a dans sa main : " + joueur.getMain());
+	            Coup coup = joueur.choisirCoup(joueurs);
+	            Carte carteCoup = coup.getCarte();
+	            joueur.retirerDeLaMain(carteCoup);
+	            if (coup.getCible() == null) {
+	                sabot.ajouterCarte(carteCoup);
+	                System.out.println("Il joue le coup " + coup);
+	            } else {
+	                coup.getCible().getZoneDeJeu().deposer(carteCoup);
+	                System.out.println("Déposer la carte '" + carteCoup + "' dans la zone de jeu de " + coup.getCible().getNom());
+	            }
+	        } else {
+	            System.out.println("Le sabot est vide, le tour est terminé.");
+	            return;
+	        }
+	    }
+	}
+
 
 	
 }

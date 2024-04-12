@@ -51,6 +51,9 @@ public class Joueur {
 
 	private Coup choisirCoupAleatoire(Set<Coup> coups) {
 	    int size = coups.size();
+	    if (size == 0) {
+	    	return null;
+	    }
 	    int item = new Random().nextInt(size);
 	    int i = 0;
 	    for (Coup coup : coups) {

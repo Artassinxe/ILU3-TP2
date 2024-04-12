@@ -104,6 +104,16 @@ public class Sabot implements Iterable<Carte> {
 			}
 		}
 	}
+	
+	@Override
+	public String toString() {
+	    StringBuilder builder = new StringBuilder();
+	    builder.append("Contenu de la pioche :\n");
+	    for (Carte carte : pioche) {
+	        builder.append(carte).append("\n");
+	    }
+	    return builder.toString();
+	}
 
 	public int getCapacity() {
 		return capacity;

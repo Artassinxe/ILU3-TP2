@@ -75,11 +75,11 @@ public class Joueur {
 		mainJoueur.prendre(carte);
 	}
 	
-	public Carte prendreCarte(List<Carte> sabot) {
-		if(sabot.isEmpty()) {
+	public Carte prendreCarte(Sabot sabot) {
+		if(sabot.estVide()) {
 			return null;
 		}
-		Carte carte = sabot.remove(0);
+		Carte carte = sabot.piocher();
 		main.prendre(carte);
 		return carte;
 	}

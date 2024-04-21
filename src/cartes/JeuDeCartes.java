@@ -8,7 +8,7 @@ import utils.Utils;
 
 public class JeuDeCartes {
 	private Carte[] typesDeCartes;
-	private ArrayList<Carte> listeCartes = new ArrayList<>();
+	private List<Carte> listeCartes = new ArrayList<>();
 	
 	public JeuDeCartes() {
 		this.typesDeCartes = new Carte[19];
@@ -59,17 +59,16 @@ public class JeuDeCartes {
 		    }
 		}
 		
-		this.listeCartes = (ArrayList<Carte>) Utils.melanger(listeCartes);
+		this.listeCartes = Utils.melanger(listeCartes);
 
 	}
 	
 	@Override
 	public String toString() {
 		StringBuilder stringB = new StringBuilder();
+		stringB.append("Jeu de carte :");
 		for(Carte carte : listeCartes) {
-			stringB.append(carte.nombreCarte);
-			stringB.append(' ');
-			stringB.append(carte.toString()+'\n');
+			stringB.append('\n'+carte.toString());
 		}
 		return stringB.toString();
 	}

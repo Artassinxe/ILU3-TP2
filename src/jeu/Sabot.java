@@ -34,7 +34,11 @@ public class Sabot implements Iterable<Carte> {
 
 		@Override
 		public Carte next() {
-			verificationConcurrence();
+			try {
+				verificationConcurrence();
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
 			if (hasNext()) {
 				Carte carte = pioche[indiceIterateur];
 				indiceIterateur++;
@@ -46,8 +50,12 @@ public class Sabot implements Iterable<Carte> {
 		}
 
 		@Override
-		public void remove() {
-			verificationConcurrence();
+		public void remove() throws IllegalArgumentException {
+			try {
+				verificationConcurrence();
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
 			if (nbCartes < 1 || !nextEffectue) {
 				throw new IllegalArgumentException();
 			}
@@ -59,7 +67,7 @@ public class Sabot implements Iterable<Carte> {
 			nbCartes--;
 		}
 
-		private void verificationConcurrence() {
+		private void verificationConcurrence() throws ConcurrentModificationException {
 			if (nombreOperations != nombreOperationsReference)
 				throw new ConcurrentModificationException();
 		}
@@ -108,9 +116,9 @@ public class Sabot implements Iterable<Carte> {
 	@Override
 	public String toString() {
 	    StringBuilder builder = new StringBuilder();
-	    builder.append("Contenu de la pioche :\n");
+	    builder.append("Contenu de la pioche :");
 	    for (Carte carte : pioche) {
-	        builder.append(carte).append("\n");
+	        builder.append("\n"+carte);
 	    }
 	    return builder.toString();
 	}

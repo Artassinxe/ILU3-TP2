@@ -11,17 +11,11 @@ public class TestJeu {
         Joueur bill = new Joueur("Bill");
         Joueur luffy = new Joueur("Luffy");
         
-        jeu.inscrire(jack);
-        jeu.inscrire(bill);
-        jeu.inscrire(luffy);
+        jeu.inscrire(jack,bill,luffy);
         
         JeuDeCartes jeuDeCartes = new JeuDeCartes();
-        System.out.println(jeuDeCartes.toString());
         
         jeu.remplirSabot(jeuDeCartes);
-        Sabot sabot = jeu.getSabot();
-        System.out.println(sabot.toString());
- 
         jeu.distribuerCartes();
         jeu.lancer();
 
